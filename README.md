@@ -12,6 +12,7 @@ Using AI tools to help with coding is like going from a bicycle to a motorcycle.
 - [15 settings](#15-settings)
 - [16 Code actions](#16-code-actions)
 - [Sidebar chat](#sidebar-chat)
+- [24 Unit tests](#24-unit-tests)
 
 
 
@@ -60,6 +61,12 @@ Review code selected like PR review. Modify code gives suggestions.
 
 ## Sidebar chat
 
+`#file:README.md`
+`#fn-name`
+
+`@` to see all copilot functionality.
+
+## 24 Unit tests
 
 
 
