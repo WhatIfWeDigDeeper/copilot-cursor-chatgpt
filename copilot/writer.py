@@ -1,10 +1,27 @@
 import os
 import shutil
+import shlex
 from typing import List
 
 def write_file(file_path: str, content: str) -> None:
-    with open(file_path, 'w') as f:
-        f.write(content)
+    """
+    Writes the given content to a file at the specified file path.
+
+    Args:
+        file_path (str): The path to the file where the content will be written.
+        content (str): The content to write to the file.
+
+    Raises:
+        OSError: If an error occurs while writing to the file.
+
+    Note:
+        If an OSError occurs, an error message is printed to the console.
+    """
+    try:
+        with open(file_path, 'w') as f:
+            f.write(content)
+    except OSError as e:
+        print(f"Error writing to file {file_path}: {e}")
 
 def append_file(file_path: str, content: str) -> None:
     with open(file_path, 'a') as f:
@@ -21,11 +38,9 @@ def delete_file(file_path: str) -> None:
         print(f"The file {file_path} does not exist.")
 
 def copy_file(source_path: str, destination_path: str) -> None:
-    import shutil
     shutil.copy(source_path, destination_path)
 
 def move_file(source_path: str, destination_path: str) -> None:
-    import shutil
     shutil.move(source_path, destination_path)
 
 def rename_file(old_name: str, new_name: str) -> None:
@@ -42,7 +57,6 @@ def delete_directory(directory_path: str) -> None:
     shutil.rmtree(directory_path)
 
 def get_file_size(file_path: str) -> int:
-    import os
     return os.path.getsize(file_path)
 
 def get_file_extension(file_path: str) -> str:
@@ -78,19 +92,16 @@ def parse_input_with_quotes(input_str: str) -> List[str]:
     """
     Splits the input string by whitespace, respecting quoted strings.
     """
-    import shlex
     return shlex.split(input_str)
 def parse_input_with_quotes_and_escape(input_str: str) -> List[str]:
     """
     Splits the input string by whitespace, respecting quoted strings and escape characters.
     """
-    import shlex
     return shlex.split(input_str.replace("\\", "\\\\").replace('"', '\\"'))
 def parse_input_with_quotes_and_escape_and_special_chars(input_str: str) -> List[str]:
     """
     Splits the input string by whitespace, respecting quoted strings, escape characters, and special characters.
     """
-    import shlex
     return shlex.split(input_str.replace("\\", "\\\\").replace('"', '\\"').replace("'", "\\'"))
 
 # if __name__ == "__main__":
