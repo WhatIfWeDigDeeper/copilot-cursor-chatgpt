@@ -1,8 +1,24 @@
 import os
 
 def write_file(file_path: str, content: str):
-  with open(file_path, "w") as file:
-    file.write(text)
+  """
+  Writes the provided content to the file at the specified file path.
+
+  Args:
+      file_path (str): The path of the file to write to
+      content (str): The content to write to the file
+
+  Raises:
+      IOError: If there is an error writing to the file
+      Exception: For any other unexpected errors
+  """
+  try:
+    with open(file_path, "w") as file:
+      file.write(content)
+  except IOError as e:
+    raise IOError(f"Failed to write to file {file_path}: {str(e)}")
+  except Exception as e:
+    raise Exception(f"Unexpected error while writing to file {file_path}: {str(e)}")
 
 def read_file(file_path: str) -> str:
   with open(file_path, "r") as file:
@@ -13,7 +29,22 @@ def append_file(file_path: str, text: str):
     file.write(text)
 
 def create_file(file_path: str):
-  open(file_path, "w").close()
+  """
+  Creates a new empty file at the specified file path.
+
+  Args:
+      file_path (str): The path where the new file should be created
+
+  Raises:
+      IOError: If there is an error creating the file
+      Exception: For any other unexpected errors
+  """
+  try:
+    open(file_path, "w").close()
+  except IOError as e:
+    raise IOError(f"Failed to create file {file_path}: {str(e)}")
+  except Exception as e:
+    raise Exception(f"Unexpected error while creating file {file_path}: {str(e)}")
 
 def delete_file(file_path: str):
   os.remove(file_path)
@@ -42,34 +73,39 @@ def parse_input_to_list(input_str: str) -> list[str]:
 #   print(rename_file("test.txt", "test2.txt"))
 
 if __name__ == "__main__":
-  # read user input and store it in a file
-  # ask the user for more input until they say "done"
-
   # create a file
   file_path = "test.txt"
   create_file(file_path)
 
-  # ask the user for input
-  user_input = input("Enter your input: ")
+   #   # write the input to the file
+  #   write_file(file_path, user_input)
 
-  # write the input to the file
-  write_file(file_path, user_input)
+  # # ask the user for more input
+  # more_input = input("Enter more input: ")
 
-  # ask the user for more input
-  more_input = input("Enter more input: ")
+  # # write the more input to the file
+  # write_file(file_path, more_input)
 
-  # write the more input to the file
-  write_file(file_path, more_input)
+  # # ask the user for more input
+  # more_input = input("Enter more input: ")
 
-  # ask the user for more input
-  more_input = input("Enter more input: ")
+  # # write the more input to the file
+  # write_file(file_path, more_input)
 
-  # write the more input to the file
-  write_file(file_path, more_input)
+  # # ask the user for more input
+  # more_input = input("Enter more input: ")
 
-  # ask the user for more input
-  more_input = input("Enter more input: ")
+  # # write the more input to the file
+  # write_file(file_path, more_input)
 
-  # write the more input to the file
-  write_file(file_path, more_input)
+
+
+## in chat had to type use while loop for lines
+  while True:
+    # ask the user for input
+    user_input = input("Enter your input (or 'done' to finish): ")
+
+    # check if user wants to stop
+    if user_input.lower() == 'done':
+      break
 
