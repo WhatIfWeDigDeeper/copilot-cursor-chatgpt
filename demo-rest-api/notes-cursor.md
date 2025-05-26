@@ -53,3 +53,5 @@ validate email with regex
 ```text
 extract to a function validateEmail with commented regex
 ```
+
+Select error in terminal and click "add to chat"
