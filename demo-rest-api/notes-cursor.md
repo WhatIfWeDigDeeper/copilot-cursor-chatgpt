@@ -25,3 +25,20 @@ Don't add any code for storing user data in a database yet
 ```
 
 Note have to use `cmd shift v` to past into chat, otherwise it adds the files with the lines, but you can't execute the prompt.
+
+
+```text
+Change the import-export syntax across all files from common.js to ESM.
+```
+
+Manually converted const fn = () => to export function. Cursor recognized what I was doing and converted the rest of the functions to export function and removed the final exports.
+
+```text
+I want to store all data in a SQLite database.
+
+How do I add one to this application?
+```
+
+```text
+I want to use the better SQLite3 package instead of the SQLite3 package.
+```

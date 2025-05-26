@@ -23,3 +23,11 @@ AI agent mode
 [Cursor AI](cursor/notes.md)
 
 [ChatGPT](chatGPT/notes.md)
+
+## ToDo
+
+in instructions file, add
+prefer ESM over common.js
+prefer export functions over final exports
+prefer function declarations over arrow functions unless the function is a callback or a one-liner expression
+
