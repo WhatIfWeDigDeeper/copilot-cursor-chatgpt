@@ -2,20 +2,15 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:3000';
 
+// Set timeout to 5 minutes for all tests in this file
+jest.setTimeout(5 * 60 * 1000);
+
 describe('User API Tests', () => {
   const testUser = {
     username: 'testuser',
     email: 'test@example.com',
     password: 'password123'
   };
-
-  beforeAll(async () => {
-    // You might want to add setup code here, like clearing the database
-  });
-
-  afterAll(async () => {
-    // You might want to add cleanup code here
-  });
 
   describe('POST /users/signup', () => {
     it('should create a new user successfully', async () => {
