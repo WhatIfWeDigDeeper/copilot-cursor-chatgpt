@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import db from '../config/database.js';
 
 const user = {
@@ -9,9 +10,10 @@ const user = {
 };
 
 // Function to create a new user object
-export function createUser({ username, email, password }) {
+export async function createUser({ username, email, password }) {
   const id = Math.random().toString(36).substr(2, 9);
   const createdAt = new Date().toISOString();
+  const hashedPassword = await bcrypt.hash(password.trim(), 10);
 
   const stmt = db.prepare(`
     INSERT INTO users (id, username, email, password, createdAt)
@@ -23,14 +25,13 @@ export function createUser({ username, email, password }) {
       id,
       username.trim(),
       email.trim(),
-      password.trim(),
+      hashedPassword,
       createdAt
     );
     return {
       id,
       username: username.trim(),
       email: email.trim(),
-      password: password.trim(),
       createdAt
     };
   } catch (error) {
