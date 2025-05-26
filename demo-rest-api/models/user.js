@@ -19,12 +19,18 @@ export function createUser({ username, email, password }) {
   `);
 
   try {
-    stmt.run(id, username, email, password, createdAt);
+    stmt.run(
+      id,
+      username.trim(),
+      email.trim(),
+      password.trim(),
+      createdAt
+    );
     return {
       id,
-      username,
-      email,
-      password,
+      username: username.trim(),
+      email: email.trim(),
+      password: password.trim(),
       createdAt
     };
   } catch (error) {
@@ -45,19 +51,34 @@ export function findUserByUsername(username) {
   return stmt.get(username);
 }
 
+/**
+ * Validates an email address using regex pattern:
+ * ^                    - Start of string
+ * [a-zA-Z0-9._-]+     - One or more letters, numbers, dots, underscores, or hyphens
+ * @                    - Literal @ symbol
+ * [a-zA-Z0-9.-]+      - One or more letters, numbers, dots, or hyphens
+ * \.                   - Literal dot
+ * [a-zA-Z]{2,}        - Two or more letters (top level domain)
+ * $                    - End of string
+ */
+function validateEmail(email) {
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailRegex.test(email);
+}
+
 // Function to validate user data
 export function validateUser({ username, email, password }) {
   const errors = {};
 
-  if (!username || username.length < 3) {
+  if (!username?.trim() || username.trim().length < 3) {
     errors.username = 'Username must be at least 3 characters long';
   }
 
-  if (!email || !email.includes('@')) {
+  if (!email?.trim() || !validateEmail(email.trim())) {
     errors.email = 'Please provide a valid email address';
   }
 
-  if (!password || password.length < 6) {
+  if (!password?.trim() || password.trim().length < 6) {
     errors.password = 'Password must be at least 6 characters long';
   }
 

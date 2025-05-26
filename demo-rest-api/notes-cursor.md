@@ -42,3 +42,14 @@ How do I add one to this application?
 ```text
 I want to use the better SQLite3 package instead of the SQLite3 package.
 ```
+
+Better validation of user input.
+
+```text
+validate email with regex
+```
+
+
+```text
+extract to a function validateEmail with commented regex
+```
