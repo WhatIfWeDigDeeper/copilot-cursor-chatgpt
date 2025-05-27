@@ -3,7 +3,7 @@ import Database from 'better-sqlite3';
 const db = new Database('users.db', { verbose: console.log });
 
 // Create users table if it doesn't exist
-const createTable = db.prepare(`
+const createUsersTable = db.prepare(`
   CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
     username TEXT UNIQUE NOT NULL,
@@ -12,7 +12,18 @@ const createTable = db.prepare(`
     createdAt TEXT NOT NULL
   )
 `);
+createUsersTable.run();
 
-createTable.run();
+// Create events table if it doesn't exist
+const createEventsTable = db.prepare(`
+  CREATE TABLE IF NOT EXISTS events (
+    id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT,
+    address TEXT,
+    date TEXT NOT NULL
+  )
+`);
+createEventsTable.run();
 
 export default db;
