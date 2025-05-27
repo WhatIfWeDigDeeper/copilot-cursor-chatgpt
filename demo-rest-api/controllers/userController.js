@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { createUser, findUserByEmail, validateUser } from '../models/user.js';
+import { generateAuthResponse } from '../util/auth.js';
 
 // In-memory storage for users (temporary solution)
 const users = [];
@@ -43,9 +44,9 @@ export async function login(req, res) {
       });
     }
 
-    // Return user without password
-    const { password: _, ...userWithoutPassword } = user;
-    res.status(200).json(userWithoutPassword);
+    // Generate auth response with token and user data
+    const authResponse = generateAuthResponse(user);
+    res.status(200).json(authResponse);
   } catch (error) {
     console.error('Error during login:', error);
     res.status(500).json({ error: 'Internal server error' });
