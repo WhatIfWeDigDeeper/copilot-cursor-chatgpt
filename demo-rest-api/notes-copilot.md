@@ -27,3 +27,21 @@ I'm using a SQLite database. Update the #file:database.js file to also contain a
 Use this database from this file in the #file:event.js file to perform the tasks mentioned before.
 ```
 
+## Events Controller
+
+```text
+Insert and export functions for creating an event, editing an event, deleting an event and for getting one event by ID or all events.
+Consider #file:event.js
+```
+
+Resulted in blocked code. Had to add alias to the import statement
+
+Quicker with Cursor to rename and it predict the edits in the file.
+
+```text
+Update the routes to use the appropriate controller functions from #file:eventsController.js
+```
+
+```text
+import all controller functions through one single "events" object
+```

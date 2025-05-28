@@ -1,25 +1,15 @@
 import express from 'express';
+import * as events from '../controllers/eventsController.js';
 
 const router = express.Router();
 
 // Create an event
-router.post('/', (req, res) => {
-  const event = req.body;
-
-  res.status(201).json(event);
-});
+router.post('/', events.create);
 
 // Edit an event by ID
-router.put('/:id', (req, res) => {
-  const { id } = req.params;
-  const updatedEvent = req.body;
-
-});
+router.put('/:id', events.edit);
 
 // Delete an event by ID
-router.delete('/:id', (req, res) => {
-  const { id } = req.params;
-});
+router.delete('/:id', events.deleteById);
 
 export default router;
- date, location } = req.body;
