@@ -1,0 +1,9 @@
+{
+  "jest.jestCommandLine": "node_modules/.bin/jest",
+  "jest.rootPath": "demo-rest-api",
+  "debug.javascript.defaultRuntimeExecutable": {
+    "pwa-node": "node"
+  },
+  "testExplorer.codeLens": true,
+  "markdown.extension.toc.levels": "2..6"
+}

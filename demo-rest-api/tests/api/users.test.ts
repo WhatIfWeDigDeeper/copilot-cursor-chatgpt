@@ -73,9 +73,12 @@ describe('User API Tests', () => {
         password: testUser.password
       });
 
+      const user = response.data?.user;
       expect(response.status).toBe(200);
-      expect(response.data).toHaveProperty('id');
-      expect(response.data.email).toBe(testUser.email);
+      expect(user).toHaveProperty('id');
+      expect(user.email).toBe(testUser.email);
+      // Accept JWT format: base64url.header.base64url.payload.base64url.signature
+      expect(response.data.token).toMatch(/^[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+$/);
       expect(response.data).not.toHaveProperty('password');
     });
 

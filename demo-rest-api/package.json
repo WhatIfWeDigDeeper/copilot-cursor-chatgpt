@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node app.js",
-    "dev": "node --watch app.js",
+    "dev": "rm -rf users.db; node --watch app.js",
     "test": "jest",
     "test.api": "ts-jest tests/api",
     "test:watch": "jest --watch"
