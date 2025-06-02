@@ -45,3 +45,5 @@ Update the routes to use the appropriate controller functions from #file:eventsC
 ```text
 import all controller functions through one single "events" object
 ```
+
+When referencing a file from typing in chat, `#file:` is automatically added to the file name. You don't start typing `#file:`. You start type the file name with the `#` like `#events.js` and it will be added automatically.

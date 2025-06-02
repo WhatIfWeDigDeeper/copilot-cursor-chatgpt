@@ -10,14 +10,28 @@ import {
 export function create(req, res) {
   try {
     const { title, description, address, date } = req.body;
-    if (!title || !description || !address || !date) {
-      return res.status(400).json({ error: 'Missing required fields.' });
+    if (
+      isInvalidInput(title, description, address, date)
+    ) {
+      return res.status(400).json({ error: 'Missing or invalid required fields.' });
     }
-    const event = createEvent({ title, description, address, date });
+    const event = createEvent({
+      title: title.trim(),
+      description: description.trim(),
+      address: address.trim(),
+      date
+    });
     res.status(201).json(event);
   } catch (error) {
     res.status(500).json({ error: 'Failed to create event.' });
   }
+}
+
+function isInvalidInput(title, description, address, date) {
+  return !title || typeof title !== 'string' || title.trim() === '' ||
+    !description || typeof description !== 'string' || description.trim() === '' ||
+    !address || typeof address !== 'string' || address.trim() === '' ||
+    !date || isNaN(Date.parse(date));
 }
 
 // Get an event by ID
@@ -37,17 +51,16 @@ export function getById(req, res) {
 
 // Edit an event by ID
 export function edit(req, res) {
-  try {
-    const { id } = req.params;
-    const updatedFields = req.body;
-    const event = editEvent(id, updatedFields);
-    if (!event) {
-      return res.status(404).json({ error: 'Event not found.' });
-    }
-    res.json(event);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to edit event.' });
+  const { id } = req.params;
+  const updatedFields = req.body;
+  const event = editEvent(id, updatedFields);
+  if (!event) {
+    return res.status(404).json({ error: 'Event not found.' });
   }
+  if (event.status === 400 && event.errors) {
+    return res.status(400).json({ errors: event.errors });
+  }
+  res.json(event);
 }
 
 // Delete an event by ID

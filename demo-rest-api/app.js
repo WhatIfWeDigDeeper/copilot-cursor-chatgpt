@@ -1,4 +1,5 @@
 import express from 'express';
+import eventsRoutes from './routes/events.js';
 import userRoutes from './routes/users.js';
 
 const app = express();
@@ -8,6 +9,8 @@ app.use(express.json());
 
 // Use routes
 app.use('/users', userRoutes);
+
+app.use('/events', eventsRoutes);
 
 // Basic error handler
 app.use((err, req, res, next) => {

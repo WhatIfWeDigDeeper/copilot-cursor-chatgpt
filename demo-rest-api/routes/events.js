@@ -12,4 +12,11 @@ router.put('/:id', events.edit);
 // Delete an event by ID
 router.delete('/:id', events.deleteById);
 
+// Get an event by ID
+router.get('/:id', events.getById);
+// Get all events
+router.get('/', events.getAll);
+
+// Export the router
+
 export default router;
