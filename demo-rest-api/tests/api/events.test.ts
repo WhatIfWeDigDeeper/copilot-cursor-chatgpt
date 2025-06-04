@@ -122,14 +122,13 @@ describe('Events API Tests', () => {
     });
   });
 
-  it('should delete the event by ID when logged in', async () => {
+  it('should delete the event by ID when logged in and verify 404 after', async () => {
     const response = await axios.delete(`${EVENTS_URL}/${createdEventId}`, {
       headers: { Authorization: `Bearer ${authToken}` }
     });
     expect(response.status).toBe(204);
-  });
 
-  it('should return 404 for deleted event', async () => {
+    // should return 404 for deleted event
     await expect(
       axios.get(`${EVENTS_URL}/${createdEventId}`)
     ).rejects.toMatchObject({

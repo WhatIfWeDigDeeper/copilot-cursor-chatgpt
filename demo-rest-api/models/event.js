@@ -40,13 +40,13 @@ function validateEventFields(fields, required = false) {
 }
 
 // Create a new event
-function createEvent({ title, description, address, date }) {
+function createEvent({ title, description, address, date, userId }) {
   const id = uuidv4();
   const stmt = db.prepare(
-    'INSERT INTO events (id, title, description, address, date) VALUES (?, ?, ?, ?, ?)'
+    'INSERT INTO events (id, title, description, address, date, user_id) VALUES (?, ?, ?, ?, ?, ?)'
   );
-  stmt.run(id, title, description, address, date);
-  return { id, title, description, address, date };
+  stmt.run(id, title, description, address, date, userId);
+  return { id, title, description, address, date, userId };
 }
 
 // Edit an event by ID

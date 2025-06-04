@@ -19,7 +19,8 @@ export function create(req, res) {
       title: title.trim(),
       description: description.trim(),
       address: address.trim(),
-      date
+      date,
+      userId: req.user.id // Assuming req.user is set by authentication middleware
     });
     res.status(201).json(event);
   } catch (error) {
@@ -53,23 +54,37 @@ export function getById(req, res) {
 export function edit(req, res) {
   const { id } = req.params;
   const updatedFields = req.body;
-  const event = editEvent(id, updatedFields);
+  const event = getEventById(id);
   if (!event) {
     return res.status(404).json({ error: 'Event not found.' });
   }
-  if (event.status === 400 && event.errors) {
-    return res.status(400).json({ errors: event.errors });
+  if (!req.user || event.userId !== req.user.id) {
+    return res.status(403).json({ error: 'Forbidden: You do not have permission to edit this event.' });
   }
-  res.json(event);
+  const updatedEvent = editEvent(id, updatedFields);
+  if (!updatedEvent) {
+    return res.status(404).json({ error: 'Event not found.' });
+  }
+  if (updatedEvent.status === 400 && updatedEvent.errors) {
+    return res.status(400).json({ errors: updatedEvent.errors });
+  }
+  res.json(updatedEvent);
 }
 
 // Delete an event by ID
 export function deleteById(req, res) {
+  const { id } = req.params;
+  const event = getEventById(id);
+  if (!event) {
+    return res.status(404).json({ error: 'Event not found.' });
+  }
+  if (!req.user || event.userId !== req.user.id) {
+    return res.status(403).json({ error: 'Forbidden: You do not have permission to edit this event.' });
+  }
   try {
-    const { id } = req.params;
     const success = deleteEvent(id);
     if (!success) {
-      return res.status(404).json({ error: 'Event not found.' });
+      return res.status(500).json({ error: `Failed to delete event ${id}` });
     }
     res.status(204).send();
   } catch (error) {
