@@ -28,4 +28,16 @@ const createEventsTable = db.prepare(`
 `);
 createEventsTable.run();
 
+// Create registrations table if it doesn't exist
+const createRegistrationsTable = db.prepare(`
+  CREATE TABLE IF NOT EXISTS registrations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    event_id TEXT NOT NULL,
+    user_id TEXT NOT NULL,
+    FOREIGN KEY (event_id) REFERENCES events (id),
+    FOREIGN KEY (user_id) REFERENCES users (id)
+  )
+`);
+createRegistrationsTable.run();
+
 export default db;

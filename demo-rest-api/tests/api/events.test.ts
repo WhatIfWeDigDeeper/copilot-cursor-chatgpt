@@ -23,7 +23,6 @@ beforeAll(async () => {
 });
 
 describe('Events API Tests', () => {
-  let createdEventId: string;
   const eventData = {
     title: 'Test Event',
     description: 'A test event',
@@ -40,14 +39,21 @@ describe('Events API Tests', () => {
     authToken = response.data.token;
   });
 
-  it('should fail to create event if not logged in', async () => {
-    await expect(
-      axios.post(`${EVENTS_URL}/`, eventData)
-    ).rejects.toMatchObject({
-      response: {
-        status: 401
-      }
+  // Utility to create an event and return its ID
+  async function createEvent(data = eventData) {
+    const response = await axios.post(`${EVENTS_URL}/`, data, {
+      headers: { Authorization: `Bearer ${authToken}` }
     });
+    return response.data.id;
+  }
+
+  it('should fail to create event if not logged in', async () => {
+    try {
+      await axios.post(`${EVENTS_URL}/`, eventData);
+      throw new Error('Request should have failed');
+    } catch (error: any) {
+      expect(error.response.status).toBe(401);
+    }
   });
 
   it('should create a new event successfully when logged in', async () => {
@@ -60,107 +66,108 @@ describe('Events API Tests', () => {
     expect(response.data.description).toBe(eventData.description);
     expect(response.data.address).toBe(eventData.address);
     expect(response.data.date).toBe(eventData.date);
-    createdEventId = response.data.id;
   });
 
   it('should get the created event by ID', async () => {
-    const response = await axios.get(`${EVENTS_URL}/${createdEventId}`);
+    const eventId = await createEvent();
+    const response = await axios.get(`${EVENTS_URL}/${eventId}`);
     expect(response.status).toBe(200);
-    expect(response.data.id).toBe(createdEventId);
+    expect(response.data.id).toBe(eventId);
     expect(response.data.title).toBe(eventData.title);
   });
 
   it('should get all events (array)', async () => {
+    const eventId = await createEvent();
     const response = await axios.get(`${EVENTS_URL}/`);
     expect(response.status).toBe(200);
     expect(Array.isArray(response.data)).toBe(true);
-    expect(response.data.some((e: { id: string }) => e.id === createdEventId)).toBe(true);
+    expect(response.data.some((e: { id: string }) => e.id === eventId)).toBe(true);
   });
 
   it('should fail to edit the event if not logged in', async () => {
-    await expect(
-      axios.put(`${EVENTS_URL}/${createdEventId}`, { title: 'Should Fail' })
-    ).rejects.toMatchObject({
-      response: {
-        status: 401
-      }
-    });
+    const eventId = await createEvent();
+    try {
+      await axios.put(`${EVENTS_URL}/${eventId}`, { title: 'Should Fail' });
+      throw new Error('Request should have failed');
+    } catch (error: any) {
+      expect(error.response.status).toBe(401);
+    }
   });
 
   it('should edit the event by ID when logged in', async () => {
+    const eventId = await createEvent();
     const updated = { title: 'Updated Event', description: 'Updated desc' };
-    const response = await axios.put(`${EVENTS_URL}/${createdEventId}`, updated, {
+    const updatedResponse = await axios.put(`${EVENTS_URL}/${eventId}`, updated, {
       headers: { Authorization: `Bearer ${authToken}` }
     });
-    expect(response.status).toBe(200);
-    expect(response.data.title).toBe(updated.title);
-    expect(response.data.description).toBe(updated.description);
+
+    expect(updatedResponse.status).toBe(200);
+    expect(updatedResponse.data.title).toBe(updated.title);
+    expect(updatedResponse.data.description).toBe(updated.description);
   });
 
   it('should return 400 with list of errors when updating event with invalid data', async () => {
-    await expect(
-      axios.put(`${EVENTS_URL}/${createdEventId}`, { title: '', date: 'invalid-date' }, {
-        headers: { Authorization: `Bearer ${authToken}` }
-      })
-    ).rejects.toMatchObject({
-      response: {
-        status: 400,
-        data: {
-          errors: expect.any(Array)
-        },
-      },
-    });
+    const eventId = await createEvent();
+    try {
+      await axios.put(
+        `${EVENTS_URL}/${eventId}`,
+        { title: '', date: 'invalid-date' },
+        { headers: { Authorization: `Bearer ${authToken}` } }
+      );
+      throw new Error('Request should have failed');
+    } catch (error: any) {
+      expect(error.response.status).toBe(400);
+      expect(Array.isArray(error.response.data.errors)).toBe(true);
+    }
   });
 
   it('should fail to delete the event if not logged in', async () => {
-    await expect(
-      axios.delete(`${EVENTS_URL}/${createdEventId}`)
-    ).rejects.toMatchObject({
-      response: {
-        status: 401
-      }
-    });
+    const eventId = await createEvent();
+    try {
+      await axios.delete(`${EVENTS_URL}/${eventId}`);
+      throw new Error('Request should have failed');
+    } catch (error: any) {
+      expect(error.response.status).toBe(401);
+    }
   });
 
   it('should delete the event by ID when logged in and verify 404 after', async () => {
-    const response = await axios.delete(`${EVENTS_URL}/${createdEventId}`, {
+    const eventId = await createEvent();
+    const response = await axios.delete(`${EVENTS_URL}/${eventId}`, {
       headers: { Authorization: `Bearer ${authToken}` }
     });
     expect(response.status).toBe(204);
 
     // should return 404 for deleted event
-    await expect(
-      axios.get(`${EVENTS_URL}/${createdEventId}`)
-    ).rejects.toMatchObject({
-      response: {
-        status: 404,
-      },
-    });
+    try {
+      await axios.get(`${EVENTS_URL}/${eventId}`);
+      throw new Error('Request should have failed');
+    } catch (error: any) {
+      expect(error.response.status).toBe(404);
+    }
   });
 
   it('should return 400 for invalid event data', async () => {
-    await expect(
-      axios.post(`${EVENTS_URL}/`, { title: '', date: 'invalid-date' }, {
-        headers: { Authorization: `Bearer ${authToken}` }
-      })
-    ).rejects.toMatchObject({
-      response: {
-        status: 400,
-        data: {
-          error: expect.any(String)
-        },
-      },
-    });
+    try {
+      await axios.post(
+        `${EVENTS_URL}/`,
+        { title: '', date: 'invalid-date' },
+        { headers: { Authorization: `Bearer ${authToken}` } }
+      );
+      throw new Error('Request should have failed');
+    } catch (error: any) {
+      expect(error.response.status).toBe(400);
+      expect(typeof error.response.data.error).toBe('string');
+    }
   });
 
   it('should return 404 for non-existent event', async () => {
-    await expect(
-      axios.get(`${EVENTS_URL}/non-existent-id`)
-    ).rejects.toMatchObject({
-      response: {
-        status: 404,
-      },
-    });
+    try {
+      await axios.get(`${EVENTS_URL}/non-existent-id`);
+      throw new Error('Request should have failed');
+    } catch (error: any) {
+      expect(error.response.status).toBe(404);
+    }
   });
 
   it('should return 400 for invalid event ID format', async () => {
@@ -170,17 +177,16 @@ describe('Events API Tests', () => {
       address: '',
       date: '2025-06-02T12:00:00Z',
     };
-    await expect(
-      axios.post(`${EVENTS_URL}/`, invalidEventData, {
-        headers: { Authorization: `Bearer ${authToken}` }
-      })
-    ).rejects.toMatchObject({
-      response: {
-        status: 400,
-        data: {
-          error: expect.any(String),
-        },
-      },
-    });
+    try {
+      await axios.post(
+        `${EVENTS_URL}/`,
+        invalidEventData,
+        { headers: { Authorization: `Bearer ${authToken}` } }
+      );
+      throw new Error('Request should have failed');
+    } catch (error: any) {
+      expect(error.response.status).toBe(400);
+      expect(typeof error.response.data.error).toBe('string');
+    }
   });
 });

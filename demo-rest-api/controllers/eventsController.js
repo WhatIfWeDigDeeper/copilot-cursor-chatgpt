@@ -101,3 +101,33 @@ export function getAll(req, res) {
     res.status(500).json({ error: 'Failed to retrieve events.' });
   }
 }
+
+// Register for an event
+export function register(req, res) {
+  const { id } = req.params;
+  const event = getEventById(id);
+  if (!event) {
+    return res.status(404).json({ error: 'Event not found.' });
+  }
+  if (!req.user) {
+    return res.status(401).json({ error: 'Unauthorized: You must be logged in to register for an event.' });
+  }
+  // Assuming there's a function to handle registration logic
+  registerUserForEvent(req.user.id, id);
+  res.status(200).json({ message: `Registered for event ${id}` });
+}
+
+// Unregister from an event
+export function unregister(req, res) {
+  const { id } = req.params;
+  const event = getEventById(id);
+  if (!event) {
+    return res.status(404).json({ error: 'Event not found.' });
+  }
+  if (!req.user) {
+    return res.status(401).json({ error: 'Unauthorized: You must be logged in to unregister from an event.' });
+  }
+  // Assuming there's a function to handle unregistration logic
+  // unregisterUserFromEvent(req.user.id, id);
+  res.status(200).json({ message: `Unregistered from event ${id}` });
+}

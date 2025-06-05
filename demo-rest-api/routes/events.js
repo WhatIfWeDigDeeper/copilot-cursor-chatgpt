@@ -19,6 +19,10 @@ router.get('/:id', events.getById);
 // Get all events
 router.get('/', events.getAll);
 
+router.post('/:id/register', authenticate, events.register);
+
+router.post('/:id/unregister', authenticate, events.unregister);
+
 // Export the router
 
 export default router;

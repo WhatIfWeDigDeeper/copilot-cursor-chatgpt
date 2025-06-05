@@ -99,6 +99,20 @@ function getEventById(id) {
   return stmt.get(id) || null;
 }
 
+function registerUserForEvent(eventId, userId) {
+  const stmt = db.prepare(
+    'INSERT INTO event_registrations (event_id, user_id) VALUES (?, ?)'
+  );
+  stmt.run(eventId, userId);
+}
+
+function unregisterUserFromEvent(eventId, userId) {
+  const stmt = db.prepare(
+    'DELETE FROM event_registrations WHERE event_id = ? AND user_id = ?'
+  );
+  stmt.run(eventId, userId);
+}
+
 export {
   createEvent, deleteEvent, editEvent, getAllEvents,
   getEventById
