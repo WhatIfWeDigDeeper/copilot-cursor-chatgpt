@@ -13,6 +13,7 @@
 - [Validating input](#validating-input)
 - [Effective iteration](#effective-iteration)
 - [Extensions](#extensions)
+- [General](#general)
 
 
 
@@ -100,3 +101,13 @@ Easy to fall into the trap of using AI for everything.
 ## Extensions
 
 [Extensions](https://github.com/marketplace?type=apps&copilot_app=true)
+
+
+## General
+
+- replace "'" with "`" and copilot will suggest the correct code
+- `@` to see all copilot functionality
+- `#file:README.md` to see the file name
+- `#fn-name` to see the function name
+- `@workspace /new create node project with express --with-tests --with-linting --with-prettier --with-eslint --with-prettier --with-vscode --with-git --with-docker --with-kubernetes --with-helm --with-terraform` to create a new project with express, tests, linting, prettier, eslint, prettier, vscode, git, docker, kubernetes, helm and terraform
+- type /tests to create a new tests folder
