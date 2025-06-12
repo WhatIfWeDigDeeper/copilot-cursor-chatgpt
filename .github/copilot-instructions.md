@@ -23,6 +23,15 @@
 - Document any new environment variables in the README.md file, but do not include sensitive information.
 - Provide example values in a `.env.sample` file to guide users on how to set up their own `.env` file. Use "REDACTED" as a placeholder for sensitive information.
 
+## Testing
+
+- Always write unit tests for new features and bug fixes.
+- Use Jest for unit tests with Testing Library and Mock Service Worker.
+- Use API testing for end-to-end tests.
+- Use a consistent testing strategy, such as Test-Driven Development (TDD) or Behavior-Driven Development (BDD), to ensure that tests are written before or alongside the code.
+- Use a consistent naming convention for test files and test cases to improve readability and maintainability.
+- Use mocking and stubbing to isolate tests and avoid dependencies on external systems or services.
+
 ## Code Quality
 
 - Always write clean, readable, and maintainable code.
