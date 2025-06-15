@@ -53,4 +53,4 @@
 ## Version control
 
 - Keep commits atomic and focused on a single changes
-- Follow conventional commit message format
+- Commit message: Use the subject line for a concise summary of the changes with a blank line after it, followed by a longer description of the changes made if necessary.
