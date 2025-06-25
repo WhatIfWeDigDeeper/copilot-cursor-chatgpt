@@ -74,3 +74,12 @@ Claude Sonnet 4 trained up to March 2025
 - [ ] Copilot can help you find bugs, but it is not a replacement for testing.
 - [ ] Copilot can help you write documentation, but it is not a replacement for writing documentation.
 - [ ] Copilot can help you write tests, but it is not a replacement for writing tests.
+
+# NDC Jan 27-31 2025
+
+[Beyond The Hype: Every Day, Real World Uses for Copilot](https://www.youtube.com/watch?v=kkCw-M4zoUA)
+
+- Shorts the Google -> Stack Overflow feedback loop
+- Good at boilerplate code
+- Can give it template code
+- explain codebase - write a README describing the project and how to use it
