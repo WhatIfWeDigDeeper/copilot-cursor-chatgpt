@@ -8,3 +8,4 @@ With prompt file ask to create a PRD in the docs folder for given high-level req
 
 He's found that Gemini is better at coming up with technical design documentation.
 
+
