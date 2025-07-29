@@ -7,6 +7,7 @@
 - leverage
 - manage complexity
 - tdd - design by example
+- "Nothing at Facebook is someone else's problem"
 
 Kent Beck is a prominent figure in the software development community, known for his contributions to Agile methodologies, Test-Driven Development (TDD), and extreme programming. His work has influenced the way developers approach coding, testing, and collaboration.
 
