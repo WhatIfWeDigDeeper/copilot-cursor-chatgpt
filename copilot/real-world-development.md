@@ -53,3 +53,4 @@ Specific prompts for adding features or fixing bugs in the codebase.
 - **code**: A chat mode focused on code-related questions and programming help.
 - **debug**: A chat mode specifically for debugging assistance and troubleshooting code issues.
 
+> AI drift
