@@ -12,6 +12,13 @@ My view of the most important items from VS Code release notes. I do not include
 
 ## [November 2025](https://code.visualstudio.com/updates/v1_107)
 
+- Can add Language models with your own API key.
+- From output panel, you can click on `.copilot.md` links to show what Copilot is sending to the models.
+- From Command Palette (Cmd+p) "Developer: Show Chat Debug View"
+-
+
+
+
 
 ## [October 2025](https://code.visualstudio.com/updates/v1_106)
 
@@ -40,3 +47,5 @@ From the Agent session view (chat icon on activity bar), "You can create new and
 
 ### Terminal intellisense
 
+
+> Terminal Intellisense now provides code completions, function signatures, and documentation for commands and their arguments directly within the integrated terminal.
